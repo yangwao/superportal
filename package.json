@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/yangwao/superportal.git"
   },
-  "author": "matej nemcek",
+  "author": "Matej Nemcek <ybdaba@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/yangwao/superportal/issues"
@@ -18,14 +18,17 @@
   "homepage": "https://github.com/yangwao/superportal#readme",
   "dependencies": {
     "body-parser": "~1.17.1",
+    "connect-redis": "^3.3.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "express-pino-logger": "^2.0.0",
+    "express-session": "^1.15.3",
     "morgan": "~1.8.1",
     "nodemon": "^1.11.0",
     "pino": "^4.5.2",
     "pug": "~2.0.0-beta11",
+    "redis": "^2.7.1",
     "serve-favicon": "~2.4.2",
     "uuid": "^3.0.1"
   }

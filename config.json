@@ -8,5 +8,8 @@
       "req": "pino.stdSerializers.req",
       "res": "pino.stdSerializers.res"
     }
+  },
+  "server": {
+    "domain": "localhost.dev"
   }
 }

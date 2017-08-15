@@ -3,11 +3,14 @@ extends layout
 block content
       h1= title
       p Welcome to #{title}
-
-      script(src='https://unpkg.com/fingerprintjs2@1.5.1')
-      script(type='text/javascript').
-            new Fingerprint2().get(function(result, components){
-            console.log(result);
-            document.cookie = "fpp= " + result + "
-            });
-            
+      
+      unless auth
+        p
+        a(href='/auth') auth ur device
+        p
+        a(href='/register/generate') register your device
+      
+      if auth
+        p Auth status: #{auth}
+        if auth.ok
+          opening doors      
