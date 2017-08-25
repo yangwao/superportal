@@ -7,23 +7,39 @@ const config = require(CWD + '/config.json')
 
 const crypto = require('crypto')
 
-router.get('/', function (req, res, next) {
-
-  let data = req.query.member + req.query.token
-  let hash = crypto.createHash('sha512').update(data).digest("hex")
-
-  res.cookie('member', req.query.member)
-  res.cookie('token', req.query.token)
-  res.cookie('appId', req.query.appId)
-  res.cookie('hash', hash)
+router.get('/', (req, res, next) => {
   res.render('register', {
     title: 'setup stage',
-    url: '/auth',
-    action: 'try authtenticate with your device'
+    action: 'missing something'
   })
 });
 
-router.get('/generate', function (req, res, next) {
+router.get('/devicesign', (req, res, next) => {
+  if (!req.query.member && !req.query.token && !req.query.appId) {
+    res.render('register', {
+      title: 'setup stage',
+      action: 'missing something'
+    })
+  }
+
+  if (req.query.member && req.query.token && req.query.appId) {
+
+    let data = req.query.member + req.query.token
+    let hash = crypto.createHash('sha512').update(data).digest("hex")
+
+    res.cookie('member', req.query.member)
+    res.cookie('token', req.query.token)
+    res.cookie('appId', req.query.appId)
+    res.cookie('hash', hash)
+    res.render('register', {
+      title: 'setup stage',
+      url: '/auth',
+      action: 'try authtenticate with your device'
+    })
+  }
+})
+
+router.get('/generate', (req, res, next) => {
 
   let user = {
     member: uuid.v4(),
@@ -32,7 +48,7 @@ router.get('/generate', function (req, res, next) {
   }
 
   let url = 'http://' + config.server.domain + ':' + PORT +
-    '/register' + '?member=' + user.member +
+    '/register/devicesign' + '?member=' + user.member +
     '&token=' + user.tmpToken +
     '&appId=' + user.appId
 

@@ -3,13 +3,15 @@ const router = express.Router();
 
 router.get('/', function (req, res, next) {
   res.render('index', {
-    title: 'Superportal',
+    title: 'SuperPortal',
     url: 'http://localhost.dev:3333/auth'
   });
 });
 
 router.get('/auth', function (req, res, next) {
-  console.log(`${req.cookies.appId} have hash ${req.cookies.hash}`);
+  if (req.cookies.appId || req.cookies.hash) {
+    console.log(`${req.cookies.appId} have hash ${req.cookies.hash}`);
+  }
 
   if (!req.cookies.hash) {
     res.render('index', {

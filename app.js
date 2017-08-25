@@ -9,6 +9,11 @@ var path = require('path');
 var favicon = require('serve-favicon');
 
 global.logger = pino
+const redis = require('redis')
+
+let session = require('express-session');
+let RedisStore = require('connect-redis')(session)
+
 
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -18,6 +23,20 @@ var users = require('./routes/users');
 var register = require('./routes/register');
 
 var app = express();
+const sess = {
+  store: new RedisStore(),
+  secret: 'keyboard cat',
+  resave: false,
+  rolling: false,
+  saveUninitialized: true,
+  cookie: {}
+}
+
+if (app.get('env') === 'production') {
+  sess.cookie.secure = true
+}
+
+app.use(session(sess));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,6 +50,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', index);
 app.use('/users', users);
